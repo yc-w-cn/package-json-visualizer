@@ -9,9 +9,9 @@ function App() {
   const packageJson = useAppSelector(selectPackageJson);
 
   return (
-    <div className="flex flex-col min-h-svh">
+    <div className="flex flex-col h-screen">
       <Header />
-      <div className="flex flex-col items-center justify-center flex-grow">
+      <div className="flex flex-col items-center justify-center flex-grow overflow-hidden">
         {packageJson ? <PackageVisualizer /> : <FileUpload />}
       </div>
     </div>
