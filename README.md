@@ -18,3 +18,8 @@
 1. 安装依赖：`pnpm install`
 2. 启动开发服务器：`pnpm dev`
 3. 打开浏览器访问：`http://localhost:5173`
+
+## 作者
+
+- 邮箱: contact@wangyuchen.cn
+- 作者: YC.W

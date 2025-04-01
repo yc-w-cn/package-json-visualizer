@@ -1,6 +1,8 @@
 {
   "name": "@yc-w-cn/package-json",
   "private": true,
+  "author": "Yuchen Wang <contact@wangyuchen.cn>",
+  "license": "MIT",
   "version": "0.1.0",
   "type": "module",
   "scripts": {
