@@ -1,19 +1,20 @@
-import { Provider } from "react-redux";
-
 import { FileUpload } from "@/components/FileUpload";
 import { PackageVisualizer } from "@/components/PackageVisualizer";
-import { store } from "@/lib/store/store";
+import { useAppSelector } from "@/lib/store/store";
+
+import { Header } from "./components/Header";
+import { selectPackageJson } from "./lib/store/packageSlice";
 
 function App() {
+  const packageJson = useAppSelector(selectPackageJson);
+
   return (
-    <Provider store={store}>
-      <div className="flex flex-col items-center justify-center min-h-svh p-8">
-        <FileUpload />
-        <div className="mt-8 w-full max-w-2xl">
-          <PackageVisualizer />
-        </div>
+    <div className="flex flex-col min-h-svh">
+      <Header />
+      <div className="flex flex-col items-center justify-center flex-grow">
+        {packageJson ? <PackageVisualizer /> : <FileUpload />}
       </div>
-    </Provider>
+    </div>
   );
 }
 

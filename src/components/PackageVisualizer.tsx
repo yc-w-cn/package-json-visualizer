@@ -1,82 +1,116 @@
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
+  clearPackageJson,
   selectDependencies,
   selectDevDependencies,
   selectPackageJson,
 } from "@/lib/store/packageSlice";
-import { useAppSelector } from "@/lib/store/store";
+import { useAppDispatch, useAppSelector } from "@/lib/store/store";
 
 export function PackageVisualizer() {
+  const dispatch = useAppDispatch();
   const packageJson = useAppSelector(selectPackageJson);
   const dependencies = useAppSelector(selectDependencies);
   const devDependencies = useAppSelector(selectDevDependencies);
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "dependencies" | "devDependencies"
+  >("overview");
 
-  const handleInstall = (type: "dependencies" | "devDependencies") => {
-    if (!packageJson) return;
-
-    const packages =
-      type === "dependencies"
-        ? packageJson.dependencies
-        : packageJson.devDependencies;
-
-    if (!packages) return;
-
-    const packageList = Object.entries(packages)
-      .map(([name, version]) => `${name}@${version}`)
-      .join(" ");
-
-    // 这里可以添加实际的安装逻辑
-    console.log(`Installing ${type}: ${packageList}`);
+  const handleReset = () => {
+    dispatch(clearPackageJson());
   };
 
   if (!packageJson) return null;
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-xl font-semibold">
-          {packageJson.name || "Unnamed Package"}
-        </h2>
-        <p className="text-sm text-gray-500">
-          Version: {packageJson.version || "Not specified"}
-        </p>
+    <div className="flex h-full w-full">
+      <div className="w-48 border-r p-4 space-y-2">
+        <Button
+          variant={activeTab === "overview" ? "default" : "ghost"}
+          className="w-full justify-start"
+          onClick={() => setActiveTab("overview")}
+        >
+          Overview
+        </Button>
+        <Button
+          variant={activeTab === "dependencies" ? "default" : "ghost"}
+          className="w-full justify-start"
+          onClick={() => setActiveTab("dependencies")}
+        >
+          Dependencies
+        </Button>
+        <Button
+          variant={activeTab === "devDependencies" ? "default" : "ghost"}
+          className="w-full justify-start"
+          onClick={() => setActiveTab("devDependencies")}
+        >
+          Dev Dependencies
+        </Button>
       </div>
 
-      {dependencies.length > 0 && (
-        <div>
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium">Dependencies</h3>
-            <Button size="sm" onClick={() => handleInstall("dependencies")}>
-              Install All
-            </Button>
-          </div>
-          <ul className="mt-2 space-y-1">
-            {dependencies.map((dep) => (
-              <li key={dep} className="text-sm">
-                {dep}: {packageJson.dependencies?.[dep] ?? "Not specified"}
-              </li>
-            ))}
-          </ul>
+      <div className="flex-1 p-6 overflow-auto">
+        <div className="flex justify-end mb-4">
+          <Button variant="outline" onClick={handleReset}>
+            Reset
+          </Button>
         </div>
-      )}
 
-      {devDependencies.length > 0 && (
-        <div>
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium">Dev Dependencies</h3>
-            <Button size="sm" onClick={() => handleInstall("devDependencies")}>
-              Install All
-            </Button>
+        {activeTab === "overview" && (
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-xl font-semibold">
+                {packageJson.name || "Unnamed Package"}
+              </h2>
+              <p className="text-sm text-gray-500">
+                Version: {packageJson.version || "Not specified"}
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-medium mb-2">Package Info</h3>
+              <pre className="bg-gray-100 p-4 rounded-md text-sm overflow-auto">
+                {JSON.stringify(packageJson, null, 2)}
+              </pre>
+            </div>
           </div>
-          <ul className="mt-2 space-y-1">
-            {devDependencies.map((dep) => (
-              <li key={dep} className="text-sm">
-                {dep}: {packageJson.devDependencies?.[dep] ?? "Not specified"}
-              </li>
-            ))}
-          </ul>
+        )}
+        <div>
+          <h2 className="text-xl font-semibold">
+            {packageJson.name || "Unnamed Package"}
+          </h2>
+          <p className="text-sm text-gray-500">
+            Version: {packageJson.version || "Not specified"}
+          </p>
         </div>
-      )}
+
+        {activeTab === "dependencies" && dependencies.length > 0 && (
+          <div>
+            <h3 className="text-lg font-medium">Dependencies</h3>
+            <ul className="mt-2 space-y-1">
+              {dependencies.map((dep) => (
+                <li key={dep} className="text-sm">
+                  {dep}: {packageJson.dependencies?.[dep] ?? "Not specified"}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {activeTab === "devDependencies" && devDependencies.length > 0 && (
+          <div>
+            <h3 className="text-lg font-medium">Dev Dependencies</h3>
+            <ul className="mt-2 space-y-1">
+              {devDependencies.map((dep) => (
+                <li key={dep} className="text-sm">
+                  {dep}: {packageJson.devDependencies?.[dep] ?? "Not specified"}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

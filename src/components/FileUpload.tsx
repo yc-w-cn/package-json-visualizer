@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 
 import { setPackageJson } from "@/lib/store/packageSlice";
 
+import { Button } from "./ui/button";
+
 export function FileUpload() {
   const [dragActive, setDragActive] = useState(false);
   const dispatch = useDispatch();
@@ -86,12 +88,16 @@ export function FileUpload() {
         className={`cursor-pointer ${dragActive ? "text-blue-500" : ""}`}
       >
         {dragActive
-          ? "Drop package.json here"
-          : "Drag & drop package.json or click to select"}
+          ? "拖放package.json文件到这里"
+          : "拖放package.json文件或点击选择"}
       </label>
-      <p className="mt-2 text-sm text-gray-500">
-        Or paste package.json content
-      </p>
+      <p className="mt-2 text-sm text-gray-500">或者粘贴package.json内容</p>
+      <Button
+        className="mt-4 cursor-pointer"
+        onClick={() => document.getElementById("file-upload")?.click()}
+      >
+        上传文件
+      </Button>
     </div>
   );
 }
