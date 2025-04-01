@@ -8,6 +8,7 @@ import {
 } from "@/lib/store/packageSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/store/store";
 
+import { DependenciesList } from "./DependenciesList";
 import { Sidebar, SidebarTab } from "./Sidebar";
 
 export function PackageVisualizer() {
@@ -45,30 +46,22 @@ export function PackageVisualizer() {
           </div>
         )}
 
-        {activeTab === "dependencies" && dependencies.length > 0 && (
-          <div>
-            <h3 className="text-lg font-medium">Dependencies</h3>
-            <ul className="mt-2 space-y-1">
-              {dependencies.map((dep) => (
-                <li key={dep} className="text-sm">
-                  {dep}: {packageJson.dependencies?.[dep] ?? "Not specified"}
-                </li>
-              ))}
-            </ul>
-          </div>
+        {activeTab === "dependencies" && (
+          <DependenciesList
+            title="Dependencies"
+            dependencies={dependencies}
+            packageJson={packageJson}
+            dependencyType="dependencies"
+          />
         )}
 
-        {activeTab === "devDependencies" && devDependencies.length > 0 && (
-          <div>
-            <h3 className="text-lg font-medium">Dev Dependencies</h3>
-            <ul className="mt-2 space-y-1">
-              {devDependencies.map((dep) => (
-                <li key={dep} className="text-sm">
-                  {dep}: {packageJson.devDependencies?.[dep] ?? "Not specified"}
-                </li>
-              ))}
-            </ul>
-          </div>
+        {activeTab === "devDependencies" && (
+          <DependenciesList
+            title="Dev Dependencies"
+            dependencies={devDependencies}
+            packageJson={packageJson}
+            dependencyType="devDependencies"
+          />
         )}
         {activeTab === "rawInfo" && (
           <div>
