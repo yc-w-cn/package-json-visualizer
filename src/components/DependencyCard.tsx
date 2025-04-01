@@ -10,27 +10,25 @@ type DependencyCardProps = {
 export function DependencyCard({ name, version }: DependencyCardProps) {
   const npmInfo = useAppSelector((state) => state.npmInfo.data[name]);
 
-  console.log("npmInfo", npmInfo);
-
   return (
     <div className="border rounded-lg p-4">
       <div className="flex justify-between items-center">
         <div>
           <h4 className="font-medium">{name}</h4>
 
-          {npmInfo.description && (
+          {npmInfo?.description && (
             <div className="mt-1 text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
-              {npmInfo.description}
+              {npmInfo?.description}
             </div>
           )}
-          {npmInfo.time?.modified && (
+          {npmInfo?.time?.modified && (
             <div className="mt-1 text-xs text-gray-500 dark:text-gray-400"></div>
           )}
           <div className="flex gap-1 mt-2">
             <span className="inline-flex items-center rounded-md bg-gray-100 dark:bg-gray-700 px-2 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
               {version}
             </span>
-            {npmInfo.time?.modified && (
+            {npmInfo?.time?.modified && (
               <span className="inline-flex items-center rounded-md bg-gray-100 dark:bg-gray-700 px-2 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
                 {dayjs(npmInfo.time.modified).format("YYYY-MM-DD")}
               </span>
