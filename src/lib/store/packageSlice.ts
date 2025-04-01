@@ -34,7 +34,10 @@ export const packageSlice = createSlice({
       state.devDependencies = action.payload.devDependencies
         ? Object.keys(action.payload.devDependencies)
         : [];
+
+      return state;
     },
+
     clearPackageJson: (state) => {
       state.content = null;
       state.dependencies = [];

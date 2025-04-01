@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
+import npmInfoReducer from "./npmInfoSlice";
 import packageReducer from "./packageSlice";
 
 export const store = configureStore({
   reducer: {
     package: packageReducer,
+    npmInfo: npmInfoReducer,
   },
 });
 

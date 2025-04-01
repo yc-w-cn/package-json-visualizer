@@ -2,6 +2,8 @@ import { useCallback, useState } from "react";
 
 import { useDispatch } from "react-redux";
 
+import { updatePackageWithNpmInfo } from "@/lib/api/npm";
+import { setNpmInfo } from "@/lib/store/npmInfoSlice";
 import { setPackageJson } from "@/lib/store/packageSlice";
 
 import { Button } from "./ui/button";
@@ -44,10 +46,12 @@ export function FileUpload() {
 
   const parseFile = (file: File) => {
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const content = JSON.parse(e.target?.result as string);
         dispatch(setPackageJson(content));
+        const npmInfo = await updatePackageWithNpmInfo(content);
+        dispatch(setNpmInfo(npmInfo || {}));
       } catch (error) {
         console.error("Error parsing package.json:", error);
       }
