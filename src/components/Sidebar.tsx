@@ -2,6 +2,28 @@ import { LogOut } from "lucide-react";
 
 import { Button } from "./ui/button";
 
+function NavButton({
+  tab,
+  activeTab,
+  onTabChange,
+  children,
+}: {
+  tab: SidebarTab;
+  activeTab: SidebarTab;
+  onTabChange: (tab: SidebarTab) => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <Button
+      variant={activeTab === tab ? "default" : "ghost"}
+      className="w-full justify-start"
+      onClick={() => onTabChange(tab)}
+    >
+      {children}
+    </Button>
+  );
+}
+
 export type SidebarTab =
   | "overview"
   | "dependencies"
@@ -18,34 +40,34 @@ export function Sidebar({ activeTab, onTabChange, onExit }: SidebarProps) {
   return (
     <div className="w-48 border-r p-4 flex flex-col justify-between h-full">
       <div className="space-y-2">
-        <Button
-          variant={activeTab === "overview" ? "default" : "ghost"}
-          className="w-full justify-start"
-          onClick={() => onTabChange("overview")}
+        <NavButton
+          tab="overview"
+          activeTab={activeTab}
+          onTabChange={onTabChange}
         >
           Overview
-        </Button>
-        <Button
-          variant={activeTab === "dependencies" ? "default" : "ghost"}
-          className="w-full justify-start"
-          onClick={() => onTabChange("dependencies")}
+        </NavButton>
+        <NavButton
+          tab="dependencies"
+          activeTab={activeTab}
+          onTabChange={onTabChange}
         >
           Dependencies
-        </Button>
-        <Button
-          variant={activeTab === "devDependencies" ? "default" : "ghost"}
-          className="w-full justify-start"
-          onClick={() => onTabChange("devDependencies")}
+        </NavButton>
+        <NavButton
+          tab="devDependencies"
+          activeTab={activeTab}
+          onTabChange={onTabChange}
         >
           Dev Dependencies
-        </Button>
-        <Button
-          variant={activeTab === "rawInfo" ? "default" : "ghost"}
-          className="w-full justify-start"
-          onClick={() => onTabChange("rawInfo")}
+        </NavButton>
+        <NavButton
+          tab="rawInfo"
+          activeTab={activeTab}
+          onTabChange={onTabChange}
         >
           Raw Info
-        </Button>
+        </NavButton>
       </div>
       <div className="pt-4 border-t mt-auto">
         <button
