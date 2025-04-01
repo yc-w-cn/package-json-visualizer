@@ -22,4 +22,7 @@
 ## 作者
 
 - 邮箱: contact@wangyuchen.cn
-- 作者: YC.W
+- 作者: Yuchen Wang
+
+## 协议
+MIT
