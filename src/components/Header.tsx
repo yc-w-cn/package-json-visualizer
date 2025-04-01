@@ -19,7 +19,7 @@ export function Header() {
               alt="Logo"
               className="h-6 w-6 dark:brightness-200"
             />
-            <span className="font-bold">Package Analyzer</span>
+            <span className="font-bold">Package.json Visualizer</span>
           </div>
         </div>
         <div className="flex flex-1 items-center justify-end px-4 space-x-2">
