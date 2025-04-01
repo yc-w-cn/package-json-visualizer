@@ -36,7 +36,7 @@ export function Header() {
             )}
           </Button>
           <a
-            href="https://github.com"
+            href="https://github.com/yc-w-cn/package-json-visualizer"
             target="_blank"
             rel="noopener noreferrer"
           >
